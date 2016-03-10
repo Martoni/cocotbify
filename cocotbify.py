@@ -68,7 +68,7 @@ end
     cocotbifyied = TIMESCALE + "\n" +\
                    "\n".join(sourcefile[:-3]) +\
                    "\n" + cocotbstr + "\n" +\
-                   sourcefile[-3]
+                   "endmodule"
 
     with open(vfilename, 'w') as vfile:
         vfile.write(cocotbifyied)
