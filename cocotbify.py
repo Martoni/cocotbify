@@ -66,7 +66,7 @@ end
     """%(topname, topname)
 
     cocotbifyied = TIMESCALE + "\n" +\
-                   "\n".join(sourcefile[:-3]) +\
+                   "\n".join(sourcefile[:-2]) +\
                    "\n" + cocotbstr + "\n" +\
                    "endmodule"
 
