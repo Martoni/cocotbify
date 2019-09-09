@@ -1,9 +1,3 @@
-#! /usr/bin/python
-# -*- coding: utf-8 -*-
-#-----------------------------------------------------------------------------
-# Author:   Fabien Marteau <fabien.marteau@armadeus.com>
-# Created:  10/03/2016
-#-----------------------------------------------------------------------------
 """ class cocotbify
 """
 import sys
@@ -16,8 +10,9 @@ def usages():
     """ print usages """
     print("Usages:")
     print("cocotbify.py [options]")
-    print("-h, --help     print this help")
-    print("-v, --verilog  verilog filename to modify")
+    print("-h, --help             print this help")
+    print("-v, --verilog          verilog filename to modify")
+    print("-o, --output filename  output filename")
 
 def topname(filename):
     """ top module name is the last in file """
@@ -31,7 +26,8 @@ def topname(filename):
 if __name__ == "__main__":
 
     try:
-        opts, args = getopt.getopt(sys.argv[1:], "hv:", ["help", "verilog"])
+        opts, args = getopt.getopt(sys.argv[1:], "hv:o:",
+                                  ["help", "verilog=", "output="])
     except getopt.GetoptError:
         usages()
         sys.exit(2)
@@ -40,9 +36,12 @@ if __name__ == "__main__":
         usages()
         sys.exit(0)
 
+    outputname = None
     for opt, arg in opts:
-        if opt in ["-v", "verilog"]:
+        if opt in ["-v", "--verilog"]:
             vfilename = arg
+        elif opt in ["-o", "--output"]:
+            outputname = arg
         else:
             usages()
             sys.exit(2)
@@ -70,5 +69,7 @@ end
                    "\n" + cocotbstr + "\n" +\
                    "endmodule"
 
+    if outputname is not None:
+        vfilename = outputname
     with open(vfilename, 'w') as vfile:
         vfile.write(cocotbifyied)
