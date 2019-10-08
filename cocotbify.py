@@ -17,7 +17,7 @@ def usages():
 def topname(filename):
     """ top module name is the last in file """
     lines = []
-    with open(vfilename, 'rw') as vfile:
+    with open(filename, 'r') as vfile:
        for line in vfile:
            if line[0:6] == "module":
                lines.append(line)
