@@ -41,7 +41,32 @@ class DbgFormalParse(object):
                     currentModule = None
     
     def get_module(self, modulename):
-        return self._rulesdict.get(modulename, None)
+        return self._rulesdict.get(modulename, "")
+
+
+class ModuleParse(object):
+    MODULE="module"
+    ENDMODULE="endmodule"
+
+    def __init__(self):
+        pass
+
+    def parse_line(self, line):
+        """ return line type:
+        - module_begin
+        - module_end
+        - None
+        """
+        mtype=None
+        if line[0:len(self.MODULE)] == self.MODULE:
+            mtype="module_begin"
+            module_name = line.strip().split(" ")[1].strip("(")
+            return mtype, module_name
+        if line[0:len(self.ENDMODULE)] == self.ENDMODULE:
+            mtype="module_end"
+            return mtype, None
+        # default line
+        return None, None
 
 def usage():
     print("Usages:")
@@ -90,7 +115,25 @@ if __name__ == "__main__":
     verilogname = verilogfname.split(".")[0]
     if outputfname is None:
         outputfname = verilogname + "Formal.sv"
-
     print(f"Generating file {outputfname}")
     dbgfparse = DbgFormalParse(formalfname)
-    print("DEBUG : {}".format(dbgfparse.get_module("DibitGen")))
+    print(f"{len(dbgfparse._rulesdict)} module will be filled :")
+    print("{}".format("\n".join(dbgfparse._rulesdict.keys())))
+    mp = ModuleParse()
+
+    with open(verilogfname, 'r') as vf:
+        with open(outputfname, 'w') as of:
+            module_parsed = None
+            for line in vf:
+                mtype, modulename = mp.parse_line(line)
+                if module_parsed is None:
+                    if mtype == "module_begin":
+                        module_parsed = modulename
+                    of.write(line)
+                elif mtype == "module_end":
+                    text = dbgfparse.get_module(module_parsed)
+                    of.write(text)
+                    of.write(mp.ENDMODULE)
+                    module_parsed = None
+                else:
+                    of.write(line)
