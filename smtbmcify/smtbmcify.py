@@ -131,9 +131,12 @@ if __name__ == "__main__":
                         module_parsed = modulename
                     of.write(line)
                 elif mtype == "module_end":
-                    text = dbgfparse.get_module(module_parsed)
-                    of.write(text)
-                    of.write(mp.ENDMODULE)
+                    if module_parsed is not None:
+                        text = dbgfparse.get_module(module_parsed)
+                        of.write(text)
+                        of.write(mp.ENDMODULE + "\n")
+                    else:
+                        of.write(line)
                     module_parsed = None
                 else:
                     of.write(line)
