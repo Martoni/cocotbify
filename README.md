@@ -7,3 +7,6 @@ Quick and Dirty python script to add timescale and vcd in verilog module generat
 
 ## smtbmcify
 Inject somes SystemVerilog assert/assume under verilog chisel generated module.
+
+## cocotbgen
+Generate cocotb testbench files for a Chisel Module specified in argument
