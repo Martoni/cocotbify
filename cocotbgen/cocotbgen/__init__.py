@@ -55,6 +55,11 @@ class CocoTBGen(object):
         self._rootproject = path.join(*pl[:i])
         self._packagepath = path.join(*pl[i+3:])
 
+    def _get_template_dir(self):
+        modulepath = path.split(__file__)[0]
+        templatepath = path.split(modulepath)[0]
+        return path.join("/", templatepath, "templates")
+
     def parse(self):
         if not os.access(self._fullfilepath, os.R_OK):
             raise Exception(f"Can't open {self._fullfilepath}")
@@ -62,7 +67,7 @@ class CocoTBGen(object):
 
     def generate_dirs(self):
         dirpath = self.get_dir_path()
-        if not os.path.exists(dirpath):
+        if not path.exists(dirpath):
             os.mkdir(dirpath)
 
     def get_dir_path(self):
@@ -70,7 +75,9 @@ class CocoTBGen(object):
                 self._packagepath, self._filenamenoext)
 
     def generate_makefile(self):
-        with open(self.TEMPLATES['Makefile'], 'r') as fp:
+        tpdir = self._get_template_dir()
+        mpath = path.join("/", tpdir, self.TEMPLATES['Makefile'])
+        with open(mpath, 'r') as fp:
             maketemplate = fp.read()
         tmake = Template(maketemplate)
         packagesubpath="/".join(['..']*(len(self._pathlist)-self._index - 3))
@@ -90,9 +97,10 @@ class CocoTBGen(object):
         print(f"Makefile generated in {makefilepath}")
         self._pathwritten.append(makefilepath)
 
-
     def generate_testfile(self):
-        with open(self.TEMPLATES['testmodule'], 'r') as fp:
+        tpdir = self._get_template_dir()
+        mpath = path.join("/", tpdir, self.TEMPLATES['testmodule'])
+        with open(mpath, 'r') as fp:
             testmodule = fp.read()
         ttest = Template(testmodule)
         subs = dict(modulename=self._modulename)
@@ -127,11 +135,11 @@ def usages():
     print("-f, --file=[filepath]   give filename [mandatory]")
     print("-g, --git=[y,n]         set 'y' to git add file generated")
 
-if __name__ == "__main__":
+def main(argv):
     if sys.version_info[0] < 3:
         raise Exception("Must be using Python 3")
     try:
-        opts, args = getopt.getopt(sys.argv[1:], "s:hf:g:m:",
+        opts, args = getopt.getopt(argv, "s:hf:g:m:",
                        ["simu=", "help", "file=", "git=", "modulename="])
     except getopt.GetoptError as err:
         print(err)
@@ -172,3 +180,5 @@ if __name__ == "__main__":
     if gitopt:
         ctbg.git_add()
 
+if __name__ == "__main__":
+    main(sys.argv[1:])

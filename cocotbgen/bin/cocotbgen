@@ -1,0 +1,6 @@
+#! /usr/bin/env python
+# -*- coding: utf-8 -*-
+import cocotbgen
+import sys
+
+cocotbgen.main(sys.argv[1:])
