@@ -20,8 +20,8 @@ class CocoTBGen(object):
     """
     COCOTBGENPATH = "" #TODO: manage this with correct installer
     TEMPLATES = {
-            "Makefile": "templates/Makefile",
-            "testmodule": "templates/test_MODULE.py"
+            "Makefile": "Makefile",
+            "testmodule": "test_MODULE.py"
             }
     def __init__(self, modulename, filename, simuname):
         fpath, fname = path.split(path.abspath(path.expanduser(filename)))
@@ -88,6 +88,7 @@ class CocoTBGen(object):
                     sourcename=self._filename,
                     packagesubpath=packagesubpath,
                     packagedir=packagedir,
+                    filenamenoext=self._filenamenoext,
                     packagename=packagename
                     )
         astr = tmake.substitute(subs)

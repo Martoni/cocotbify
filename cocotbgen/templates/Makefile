@@ -32,7 +32,7 @@
 TOPLEVEL_LANG ?= verilog
 SIM=${simu}
 COCOTBIFYPATH=
-COCOTBIFY=$$(COCOTBIFYPATH)/cocotbify/cocotbify.py
+COCOTBIFY=cocotbify
 PROJECTROOT=$$(PWD)/../${packagesubpath}/..
 SCALAPATH=src/main/scala
 
@@ -56,7 +56,7 @@ endif
 PWD=$$(shell pwd)
 
 VERILOG_SOURCES=$$(PWD)/$$(TOPLEVEL)Cocotb.v
-MODULE=test_${modulename}
+MODULE=test_${filenamenoext}
 
 include $$(shell cocotb-config --makefiles)/Makefile.inc
 include $$(shell cocotb-config --makefiles)/Makefile.sim
@@ -64,7 +64,7 @@ include $$(shell cocotb-config --makefiles)/Makefile.sim
 endif
 
 $$(PWD)/$$(TOPLEVEL)Cocotb.v: $$(PROJECTROOT)/$$(TOPLEVEL).v
-	python $$(COCOTBIFY) -v $$(PROJECTROOT)/$$(TOPLEVEL).v -o $$(PWD)/$$(TOPLEVEL)Cocotb.v
+	$$(COCOTBIFY) -v $$(PROJECTROOT)/$$(TOPLEVEL).v -o $$(PWD)/$$(TOPLEVEL)Cocotb.v
 
 $$(PROJECTROOT)/$$(TOPLEVEL).v: $$(PROJECTROOT)/$$(SCALAPATH)/${packagedir}/${sourcename}
 	cd $$(PROJECTROOT)/;sbt "runMain ${packagename}.${modulename}"
