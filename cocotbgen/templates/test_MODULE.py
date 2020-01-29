@@ -1,10 +1,10 @@
 #! /usr/bin/python3
 # -*- coding: utf-8 -*-
 #-----------------------------------------------------------------------------
-# Author:   
-# Created:  
+# Author:
+# Created:
 #-----------------------------------------------------------------------------
-#  
+#
 #-----------------------------------------------------------------------------
 """ test_${modulename}
 """
@@ -23,7 +23,7 @@ from cocotb.triggers import FallingEdge
 
 
 class ${modulename}(object):
-    """ test class for ${modulename} 
+    """ test class for ${modulename}
     """
     LOGLEVEL = logging.INFO
     # clock frequency is 50Mhz
@@ -48,7 +48,7 @@ class ${modulename}(object):
 
 
 @cocotb.test()#skipe=True)
-def test_simple_with_error(dut):
+def test_simple(dut):
     tbobj = ${modulename}(dut)
     yield tbobj.reset()
     yield Timer(200, units="ns")
