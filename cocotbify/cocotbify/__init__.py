@@ -14,15 +14,6 @@ def usages():
     print("-v, --verilog          verilog filename to modify")
     print("-o, --output filename  output filename")
 
-def topname(filename):
-    """ top module name is the last in file """
-    lines = []
-    with open(filename, 'r') as vfile:
-       for line in vfile:
-           if line[0:6] == "module":
-               lines.append(line)
-    return lines[-1].split('(')[0].split(' ')[-1]
-
 def main(argv):
     try:
         opts, args = getopt.getopt(argv, "hv:o:",
@@ -34,6 +25,16 @@ def main(argv):
     if opts == []:
         usages()
         sys.exit(0)
+
+    def topname(filename):
+        """ top module name is the last in file """
+        lines = []
+        with open(filename, 'r') as vfile:
+           for line in vfile:
+               if line[0:6] == "module":
+                   lines.append(line)
+        return lines[-1].split('(')[0].split(' ')[-1]
+
 
     outputname = None
     for opt, arg in opts:
