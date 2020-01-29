@@ -30,44 +30,44 @@
 # And automatically filled by cocotbgen.py
 
 TOPLEVEL_LANG ?= verilog
-SIM=icarus
+SIM=${simu}
 COCOTBIFYPATH=
-COCOTBIFY=$(COCOTBIFYPATH)/cocotbify/cocotbify.py
-PROJECTROOT=$(PWD)/../../..
+COCOTBIFY=$$(COCOTBIFYPATH)/cocotbify/cocotbify.py
+PROJECTROOT=$$(PWD)/../${packagesubpath}/..
 SCALAPATH=src/main/scala
 
-ifneq ($(TOPLEVEL_LANG),verilog)
+ifneq ($$(TOPLEVEL_LANG),verilog)
 
 all:
-	@echo "Skipping example due to TOPLEVEL_LANG=$(TOPLEVEL_LANG) not being verilog"
+	@echo "Skipping example due to TOPLEVEL_LANG=$$(TOPLEVEL_LANG) not being verilog"
 
 clean::
 
 else
 
-TOPLEVEL=MODULE
+TOPLEVEL=${modulename}
 
-ifeq ($(OS),Msys)
-WPWD=$(shell sh -c 'pwd -W')
+ifeq ($$(OS),Msys)
+WPWD=$$(shell sh -c 'pwd -W')
 else
-WPWD=$(shell pwd)
+WPWD=$$(shell pwd)
 endif
 
-PWD=$(shell pwd)
+PWD=$$(shell pwd)
 
-VERILOG_SOURCES=$(PWD)/$(TOPLEVEL)Cocotb.v
-MODULE=test_MODULE
+VERILOG_SOURCES=$$(PWD)/$$(TOPLEVEL)Cocotb.v
+MODULE=test_${modulename}
 
-include $(shell cocotb-config --makefiles)/Makefile.inc
-include $(shell cocotb-config --makefiles)/Makefile.sim
+include $$(shell cocotb-config --makefiles)/Makefile.inc
+include $$(shell cocotb-config --makefiles)/Makefile.sim
 
 endif
 
-$(PWD)/$(TOPLEVEL)Cocotb.v: $(PROJECTROOT)/$(TOPLEVEL).v
-	python $(COCOTBIFY) -v $(PROJECTROOT)/$(TOPLEVEL).v -o $(PWD)/$(TOPLEVEL)Cocotb.v
+$$(PWD)/$$(TOPLEVEL)Cocotb.v: $$(PROJECTROOT)/$$(TOPLEVEL).v
+	python $$(COCOTBIFY) -v $$(PROJECTROOT)/$$(TOPLEVEL).v -o $$(PWD)/$$(TOPLEVEL)Cocotb.v
 
-$(PROJECTROOT)/$(TOPLEVEL).v: $(PROJECTROOT)/$(SCALAPATH)/PACKAGE/MODULE.scala
-	cd $(PROJECTROOT)/;sbt "runMain PACKAGE.MODULE"
+$$(PROJECTROOT)/$$(TOPLEVEL).v: $$(PROJECTROOT)/$$(SCALAPATH)/${packagedir}/${sourcename}
+	cd $$(PROJECTROOT)/;sbt "runMain ${packagename}.${modulename}"
 
 cleanverilog:
-	-rm $(PROJECTROOT)/$(TOPLEVEL).v
+	-rm $$(PROJECTROOT)/$$(TOPLEVEL).v

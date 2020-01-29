@@ -6,7 +6,7 @@
 #-----------------------------------------------------------------------------
 #  
 #-----------------------------------------------------------------------------
-""" test_MODULE
+""" test_${modulename}
 """
 import os
 import sys
@@ -22,8 +22,8 @@ from cocotb.triggers import RisingEdge
 from cocotb.triggers import FallingEdge
 
 
-class MODULE(object):
-    """ test class for MODULE 
+class ${modulename}(object):
+    """ test class for ${modulename} 
     """
     LOGLEVEL = logging.INFO
     # clock frequency is 50Mhz
@@ -33,7 +33,7 @@ class MODULE(object):
         if sys.version_info[0] < 3:
             raise Exception("Must be using Python 3")
         self._dut = dut
-        self.log = SimLog("MODULE.{}".format(self.__class__.__name__))
+        self.log = SimLog("${modulename}.{}".format(self.__class__.__name__))
         self._dut._log.setLevel(self.LOGLEVEL)
         self.log.setLevel(self.LOGLEVEL)
         self.clock = Clock(self._dut.clock, self.PERIOD[0], self.PERIOD[1])
@@ -49,7 +49,6 @@ class MODULE(object):
 
 @cocotb.test()#skipe=True)
 def test_simple_with_error(dut):
-    tbobj = MODULE(dut)
+    tbobj = ${modulename}(dut)
     yield tbobj.reset()
     yield Timer(200, units="ns")
-
