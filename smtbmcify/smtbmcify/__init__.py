@@ -77,12 +77,12 @@ def usage():
     print("-o, --output=name.sv   output filename, default is moduleFormal.sv")
  
 
-if __name__ == "__main__":
+def main(argv):
     if sys.version_info[0] < 3:
         raise Exception("Must be using Python 3")
 
     try:
-        opts, args = getopt.getopt(sys.argv[1:], "hv:f:o:",
+        opts, args = getopt.getopt(argv, "hv:f:o:",
                                    ["help", "verilog=",
                                     "formal=", "output="])
     except getopt.GetoptError as err:
@@ -140,3 +140,5 @@ if __name__ == "__main__":
                     module_parsed = None
                 else:
                     of.write(line)
+if __name__ == "__main__":
+    main(sys.argv[1:])
