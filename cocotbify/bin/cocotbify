@@ -1,0 +1,6 @@
+#! /usr/bin/env python
+# -*- coding: utf-8 -*-
+import cocotbify
+import sys
+
+cocotbify.main(sys.argv[1:])

@@ -23,10 +23,9 @@ def topname(filename):
                lines.append(line)
     return lines[-1].split('(')[0].split(' ')[-1]
 
-if __name__ == "__main__":
-
+def main(argv):
     try:
-        opts, args = getopt.getopt(sys.argv[1:], "hv:o:",
+        opts, args = getopt.getopt(argv, "hv:o:",
                                   ["help", "verilog=", "output="])
     except getopt.GetoptError:
         usages()
@@ -73,3 +72,6 @@ end
         vfilename = outputname
     with open(vfilename, 'w') as vfile:
         vfile.write(cocotbifyied)
+
+if __name__ == "__main__":
+    main(sys.argv[1:])

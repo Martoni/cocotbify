@@ -111,7 +111,9 @@ class CocoTBGen(object):
     def git_add(self):
         import subprocess
         for apath in self._pathwritten:
-            subprocess.run(["git", "add", apath])
+            dirpath, filename = path.split(apath)
+            subprocess.run(["git", "add", filename], cwd=dirpath)
+            print(f"file {filename} added in git")
 
 
 def usages():
