@@ -65,8 +65,6 @@ def main(argv):
         deleting = False
         dline = next(dstring)
         for line in vfile:
-            print(">{}<".format(dline))
-            print("#{}#".format(line))
             if dline[:20].strip() == line[:20].strip():
                 try:
                     dline = next(dstring)
