@@ -21,3 +21,7 @@ chiselformalcleaner.py [options]
 -v, --verilog          verilog filename to modify
 -o, --output filename  output filename
 ```
+
+# Todo
+
+- [ ] Remove code from verilog submodules
